@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.google.ksp)
 }
 
 android {
@@ -57,4 +58,12 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    // Room 필수 구성
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    // Paging 3와 Room을 연결해주는 다리 (RemoteMediator)
+    implementation(libs.room.paging)
+    // Annotation Processor 대신 KSP 사용
+    ksp(libs.room.compiler)
 }
