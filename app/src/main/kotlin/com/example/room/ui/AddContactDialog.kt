@@ -1,4 +1,4 @@
-package com.example.room
+package com.example.room.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

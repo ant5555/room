@@ -1,12 +1,13 @@
-package com.example.room
+package com.example.room.ui
 
-import Contact
+import com.example.room.data.Contact
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.room.ui.SortType
+import com.example.room.data.ContactDao
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
@@ -27,7 +28,7 @@ class ContactViewModel(
                 SortType.PHONE_NUMBER -> dao.getContactsOrderedByPhoneNumber()
             }
         }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+        .stateIn(viewModelScope, SharingStarted.Companion.WhileSubscribed(), emptyList())
 
     private val _state = MutableStateFlow(ContactState())
     val state = combine(_state, _sortType, _contacts) { state, sortType, contacts ->
@@ -35,7 +36,7 @@ class ContactViewModel(
             contacts = contacts,
             sortType = sortType
         )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ContactState())
+    }.stateIn(viewModelScope, SharingStarted.Companion.WhileSubscribed(5000), ContactState())
 
     fun onEvent(event: ContactEvent) {
         when(event) {

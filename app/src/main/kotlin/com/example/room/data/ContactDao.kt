@@ -1,6 +1,5 @@
-package com.example.room
+package com.example.room.data
 
-import Contact
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query

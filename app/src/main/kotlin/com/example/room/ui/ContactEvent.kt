@@ -1,6 +1,7 @@
-package com.example.room
+package com.example.room.ui
 
-import Contact
+import com.example.room.data.Contact
+import com.example.room.ui.SortType
 
 sealed interface ContactEvent {
     object SaveContact: ContactEvent

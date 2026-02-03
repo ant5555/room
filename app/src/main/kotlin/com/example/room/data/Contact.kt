@@ -1,3 +1,5 @@
+package com.example.room.data
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
