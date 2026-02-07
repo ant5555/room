@@ -12,5 +12,6 @@ data class ContactState(
     val sortType: SortType = SortType.FIRST_NAME,
     val firstNameError: String? = null,
     val lastNameError: String? = null,
-    val phoneNumberError: String? = null
+    val phoneNumberError: String? = null,
+    val error: String? = null,
 )

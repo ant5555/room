@@ -42,7 +42,11 @@ class ContactViewModel(
         when(event) {
             is ContactEvent.DeleteContact -> {
                 viewModelScope.launch {
-                    dao.deleteContact(event.contact)
+                    try {
+                        dao.deleteContact(event.contact)
+                    } catch (e: Exception) {
+                        _state.update { it.copy(error = "삭제에 실패했습니다") }
+                    }
                 }
             }
             ContactEvent.HideDialog -> {
@@ -84,7 +88,11 @@ class ContactViewModel(
                 )
 
                 viewModelScope.launch {
-                    dao.insertContact(contact)
+                    try {
+                        dao.insertContact(contact)
+                    } catch (e: Exception) {
+                        _state.update { it.copy(error = "저장에 실패했습니다") }
+                    }
                 }
 
                 _state.update {
