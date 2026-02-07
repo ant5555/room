@@ -53,13 +53,29 @@ class ContactViewModel(
                 }
             }
             ContactEvent.SaveContact -> {
-                val firstName = state.value.firstName
-                val lastName = state.value.lastName
-                val phoneNumber = state.value.phoneNumber
+                val firstName = state.value.firstName.trim()
+                val lastName = state.value.lastName.trim()
+                val phoneNumber = state.value.phoneNumber.trim()
 
-                if (firstName.isBlank() || lastName.isBlank() || phoneNumber.isBlank()) {
+                val firstNameError = if (firstName.isBlank()) "이름을 입력해주세요" else null
+                val lastNameError = if (lastName.isBlank()) "성을 입력해주세요" else null
+                val phoneNumberError = when {
+                    phoneNumber.isBlank() -> "전화번호를 입력해주세요"
+                    !phoneNumber.all { it.isDigit() || it == '-' } -> "올바른 전화번호를 입력해주세요"
+                    else -> null
+                }
+
+                if (firstNameError != null || lastNameError != null || phoneNumberError != null) {
+                    _state.update {
+                        it.copy(
+                            firstNameError = firstNameError,
+                            lastNameError = lastNameError,
+                            phoneNumberError = phoneNumberError
+                        )
+                    }
                     return
                 }
+
 
                 val contact = Contact(
                     firstName = firstName,
@@ -76,29 +92,26 @@ class ContactViewModel(
                         isAddingContact = false,
                         firstName = "",
                         lastName = "",
-                        phoneNumber = ""
+                        phoneNumber = "",
+                        firstNameError = null,
+                        lastNameError = null,
+                        phoneNumberError = null
                     )
                 }
             }
             is ContactEvent.SetFirstName -> {
                 _state.update {
-                    it.copy(
-                        firstName = event.firstName
-                    )
+                    it.copy(firstName = event.firstName, firstNameError = null)
                 }
             }
             is ContactEvent.SetLastName -> {
                 _state.update {
-                    it.copy(
-                        lastName = event.lastName
-                    )
+                    it.copy(lastName = event.lastName, lastNameError = null)
                 }
             }
             is ContactEvent.SetPhoneNumber -> {
                 _state.update {
-                    it.copy(
-                        phoneNumber = event.phoneNumber
-                    )
+                    it.copy(phoneNumber = event.phoneNumber, phoneNumberError = null)
                 }
             }
             ContactEvent.ShowDialog -> {
