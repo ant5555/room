@@ -14,4 +14,5 @@ data class ContactState(
     val lastNameError: String? = null,
     val phoneNumberError: String? = null,
     val error: String? = null,
+    val contactToDelete: Contact? = null,
 )
